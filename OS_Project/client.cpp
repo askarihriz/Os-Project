@@ -41,6 +41,7 @@ public:
 		system("clear");
 		cout << "INFORMATION" << endl;
 		cout << "===========" << endl;
+		cout << endl;
 		int n = s[0];
 		cout << "Num of Books = " << n << "\n" << endl;
 		cout << "Available Books" << endl;
@@ -72,6 +73,7 @@ public:
 	void DepositBook() {
 		if(s[0] == 5) {
 			cout << "Library is full ..." << endl;
+			sleep(1);
 			choice = 0;
 			return;
 		}
@@ -122,6 +124,7 @@ public:
 	void WithdrawBook() {
 		if(s[0] == 0) {
 			cout << "No Books to be Withdrawn ..." << endl;
+			sleep(1);
 			choice = 0;
 			return;
 		}
@@ -267,7 +270,10 @@ int main(void) {
 				break;
 			case 4:
 				system("clear");
+				s[1500] = '*';
+				sleep(1);
 				cout << "Exited" << endl;
+				s[1500] = '^';
 				exit(1);
 				break;
 			default:

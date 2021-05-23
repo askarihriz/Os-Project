@@ -6,6 +6,7 @@
 #include<stdlib.h>
 #include<iostream>
 #include<unistd.h>
+#include<fstream>
 #include<vector>
 #include<string>
 
@@ -13,6 +14,7 @@ using namespace std;
 
 #define MAXSIZE 27
 char *s;
+ofstream File("Database.txt");
 
 class Library {
 
@@ -59,6 +61,17 @@ public:
 
 };
 
+void UpdateDatabase() {
+	File << (int)s[0];
+	File << "\n";
+	for(int i=100 ; i<600 ; i++) {
+		if(i%100 == 0) {
+			File << "\n";
+		}
+		File << s[i];
+	}
+}
+
 void die(const char *str) {
 	perror(str);
 	exit(1);
@@ -79,8 +92,12 @@ int main(void) {
 
 	Library L("The not very Good Book");
 	
-	while(1){
+	
+	while(s[1500]!='*'){
 		L.UpdateMemory();
 	}
+
+	UpdateDatabase();
+	File.close();
 
 }
