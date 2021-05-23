@@ -6,37 +6,55 @@
 #include<stdlib.h>
 #include<iostream>
 #include<unistd.h>
+#include<vector>
 #include<string>
 
 using namespace std;
 
 #define MAXSIZE 27
+char *s;
 
 class Library {
 
 private:
 	int numOfBooks;
-	string bookName;
+	char bookName[5][100];
 public:
-	Library(int num, string name) {
-		numOfBooks = num;
-		bookName = name;
+	Library(string name) {
+		for(int i=0 ; i<5 ; i++) {
+			for(int j=0 ; j<100 ; j++) {
+				bookName[i][j]	= ' ';		
+			}		
+		}
+		for(int i=0 ; i<name.length() ; i++) {
+			bookName[0][i] = name[i];		
+		}
+		s[0] = 0;
+		int k=(100*s[0])+100;
+		for(int i=0 ; i<5 ; i++) {
+			for(int j=0 ; j<100 ; j++) {
+				s[k++] = bookName[i][j];		
+			}
+		}
+		s[0] = s[0] + 1;
+		for(int i=600 ; i<1200 ; i++) {
+			s[i] = ' ';
+		}
 	}
 
-	int getNumOfBooks() {
-		return numOfBooks;	
-	}
-
-	string getBookName() {
-		return bookName;
+	void UpdateMemory() {
+		int n = s[0];
+		setNumOfBooks(n);
+		int k=1;
+		for(int i=0 ; i<5 ; i++) {
+			for(int j=0 ; j<100 ; j++) {
+				bookName[i][j] = s[k++];			
+			}
+		}
 	}
 
 	void setNumOfBooks(int number) {
 		numOfBooks = number;	
-	}
-
-	void setNameOfBooks(string name) {
-		bookName = name;	
 	}
 
 };
@@ -47,10 +65,9 @@ void die(const char *str) {
 }
 
 int main(void) {
-	Library L(25,"The Good Book");
 	int shmid;
 	key_t key;
-	char *shm, *s;
+	char *shm;
 
 	key = 2211;
 	
@@ -60,15 +77,10 @@ int main(void) {
 		die("shmat");
 	s = shm;
 
-	*s++ = L.getNumOfBooks();
-	string temp = L.getBookName();
-	*s++ = temp.length();
-	for(int i=0 ; i<temp.length() ; i++){
-		*s++ = temp[i];
-	}
+	Library L("The not very Good Book");
 	
-	while(*s != '!')
-		sleep(1);
+	while(1){
+		L.UpdateMemory();
+	}
 
-	exit(0);
 }
