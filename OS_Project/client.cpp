@@ -72,6 +72,7 @@ public:
 
 	void DepositBook() {
 		if(s[0] == 5) {
+			system("clear");
 			cout << "Library is full ..." << endl;
 			sleep(1);
 			choice = 0;
@@ -123,6 +124,7 @@ public:
 
 	void WithdrawBook() {
 		if(s[0] == 0) {
+			system("clear");
 			cout << "No Books to be Withdrawn ..." << endl;
 			sleep(1);
 			choice = 0;
@@ -249,7 +251,6 @@ int main(void) {
 	if((shm = (char*) shmat(shmid, NULL, 0)) == (char*)-1)
 		die("shmat");
 	s=shm;
-	s[0] = 1;
 	choice = 0;
 
 	while(1)

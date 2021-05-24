@@ -15,6 +15,7 @@ using namespace std;
 #define MAXSIZE 27
 char *s;
 ofstream File("Database.txt");
+ifstream inFile("Database.txt");
 
 class Library {
 
@@ -22,23 +23,24 @@ private:
 	int numOfBooks;
 	char bookName[5][100];
 public:
-	Library(string name) {
+	Library() {
+		inFile >> s[0];
+		int c = 100;
+		for(int i=0 ; i<5 ; i++) {
+			string name;
+			getline(inFile, name);
+			for(int j=0 ; j<name.length() ; j++) {
+				s[c++] = name[j];
+			}
+			int m = name.length();
+			c = c-m;
+			c = c + 100;
+		}
 		for(int i=0 ; i<5 ; i++) {
 			for(int j=0 ; j<100 ; j++) {
 				bookName[i][j]	= ' ';		
 			}		
 		}
-		for(int i=0 ; i<name.length() ; i++) {
-			bookName[0][i] = name[i];		
-		}
-		s[0] = 0;
-		int k=(100*s[0])+100;
-		for(int i=0 ; i<5 ; i++) {
-			for(int j=0 ; j<100 ; j++) {
-				s[k++] = bookName[i][j];		
-			}
-		}
-		s[0] = s[0] + 1;
 		for(int i=600 ; i<1200 ; i++) {
 			s[i] = ' ';
 		}
@@ -47,7 +49,7 @@ public:
 	void UpdateMemory() {
 		int n = s[0];
 		setNumOfBooks(n);
-		int k=1;
+		int k=100;
 		for(int i=0 ; i<5 ; i++) {
 			for(int j=0 ; j<100 ; j++) {
 				bookName[i][j] = s[k++];			
@@ -90,7 +92,7 @@ int main(void) {
 		die("shmat");
 	s = shm;
 
-	Library L("The not very Good Book");
+	Library L;
 	
 	
 	while(s[1500]!='*'){
@@ -99,5 +101,6 @@ int main(void) {
 
 	UpdateDatabase();
 	File.close();
+	inFile.close();
 
 }
